@@ -69,6 +69,10 @@ body {
   background-color: #666666;
 }
 
+#clear {
+  background-color: rgb(235, 109, 109);
+}
+
 #equals {
   background-color: #e58c1e;
 }

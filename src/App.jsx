@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 
 function App() {
-  const [output, setOutput] = useState(0);
+  const [output, setOutput] = useState("0");
 
   return (
     <>
@@ -20,7 +20,7 @@ function App() {
                 id="clear"
                 className="basis-2/3"
                 value="AC"
-                onClick={() => setOutput(0)}>
+                onClick={() => setOutput("0")}>
                 AC
               </button>
               <button id="divide" className="" value="/">
@@ -32,7 +32,7 @@ function App() {
                 value="7"
                 onClick={(e) => {
                   setOutput(
-                    (!output || output === "0" ? "" : output) + e.target.value
+                    output === "0" ? e.target.value : output + e.target.value
                   );
                 }}>
                 7
@@ -43,7 +43,7 @@ function App() {
                 value="8"
                 onClick={(e) => {
                   setOutput(
-                    (!output || output === "0" ? "" : output) + e.target.value
+                    output === "0" ? e.target.value : output + e.target.value
                   );
                 }}>
                 8
@@ -54,7 +54,7 @@ function App() {
                 value="9"
                 onClick={(e) => {
                   setOutput(
-                    (!output || output === "0" ? "" : output) + e.target.value
+                    output === "0" ? e.target.value : output + e.target.value
                   );
                 }}>
                 9
@@ -65,7 +65,7 @@ function App() {
                 value="4"
                 onClick={(e) => {
                   setOutput(
-                    (!output || output === "0" ? "" : output) + e.target.value
+                    output === "0" ? e.target.value : output + e.target.value
                   );
                 }}>
                 4
@@ -76,7 +76,7 @@ function App() {
                 value="5"
                 onClick={(e) => {
                   setOutput(
-                    (!output || output === "0" ? "" : output) + e.target.value
+                    output === "0" ? e.target.value : output + e.target.value
                   );
                 }}>
                 5
@@ -87,7 +87,7 @@ function App() {
                 value="6"
                 onClick={(e) => {
                   setOutput(
-                    (!output || output === "0" ? "" : output) + e.target.value
+                    output === "0" ? e.target.value : output + e.target.value
                   );
                 }}>
                 6
@@ -98,7 +98,7 @@ function App() {
                 value="1"
                 onClick={(e) => {
                   setOutput(
-                    (!output || output === "0" ? "" : output) + e.target.value
+                    output === "0" ? e.target.value : output + e.target.value
                   );
                 }}>
                 1
@@ -109,7 +109,7 @@ function App() {
                 value="2"
                 onClick={(e) => {
                   setOutput(
-                    (!output || output === "0" ? "" : output) + e.target.value
+                    output === "0" ? e.target.value : output + e.target.value
                   );
                 }}>
                 2
@@ -120,7 +120,7 @@ function App() {
                 value="3"
                 onClick={(e) => {
                   setOutput(
-                    (!output || output === "0" ? "" : output) + e.target.value
+                    output === "0" ? e.target.value : output + e.target.value
                   );
                 }}>
                 3
@@ -131,7 +131,7 @@ function App() {
                 value="0"
                 onClick={(e) => {
                   setOutput(
-                    (!output || output === "0" ? "" : output) + e.target.value
+                    output === "0" ? e.target.value : output + e.target.value
                   );
                 }}>
                 0
@@ -141,16 +141,17 @@ function App() {
                 className=""
                 value="."
                 onClick={(e) => {
-                  setOutput(
-                    (!output || output === "0" ? "" : output) + e.target.value
-                  );
+                  !output.includes(".") &&
+                    setOutput(
+                      output === "0" ? e.target.value : output + e.target.value
+                    );
                 }}>
                 .
               </button>
             </div>
             <div className="flex-col">
-              <button id="multiply" className="" value="x">
-                *
+              <button id="multiply" className="" value="*">
+                x
               </button>
               <button id="subtract" className="" value="-">
                 -
