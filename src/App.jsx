@@ -4,8 +4,7 @@ import "./App.css";
 function App() {
   const [inputVal, setInput] = useState("0");
   const [outputVal, setOutput] = useState("");
-  let [formula, setFormula] = useState("0");
-  const [count, setCount] = useState(0);
+  const [formula, setFormula] = useState("0");
 
   const formulaLastChar = formula[formula.length - 1];
   const lastCharWithOperator =
@@ -15,11 +14,14 @@ function App() {
     formulaLastChar === "÷";
 
   const handleOperator = (event) => {
-    const prevFormula = formula;
-    const prevValue = inputVal; //For Output
-    const currentValue = event.target.value;
-    setInput(() => currentValue);
-    !inputVal.includes("Limit") && setFormula(formula + currentValue);
+    const currentOperator = event.target.value;
+
+    if (!inputVal.includes("Limit")) {
+      const updatedFormula = lastCharWithOperator
+        ? formula.slice(0, -1) + currentOperator
+        : formula + currentOperator;
+      setFormula(updatedFormula);
+    }
     setInput(() => "0");
     setOutput("");
   };
@@ -35,43 +37,35 @@ function App() {
       formula.includes("x") ||
       formula.includes("÷");
 
-    inputVal.length + 1 > 16 && maxDigiWarning(inputVal);
-    if (inputVal.length < 16 && !inputVal.includes("Limit")) {
+    inputVal.length + 1 > 21 && maxDigiWarning(inputVal);
+    if (inputVal.length < 21 && !inputVal.includes("Limit")) {
       setInput(currentValue);
       if (formula === "" || !testIncludesOperator) {
         setFormula(currentValue);
       } else if (lastCharWithOperator) {
         setFormula(prevFormula + currentValue);
-        formula = prevFormula + currentValue;
-        console.log("else if");
-        console.log(formula);
       } else {
         setFormula(prevFormula + event.target.value);
-        formula = prevFormula + event.target.value;
-        console.log("else");
-        console.log(formula);
       }
     }
   };
 
   const evaluateStringExpression = (expression) => {
     try {
-      const result = new Function(`return ${expression}`);
+      const newString = expression.replace("÷", "/").replace("x", "*");
+      const result = new Function(`return ${newString}`);
       return result;
     } catch (error) {
       return null;
     }
   };
 
-  // useEffect(() => {
-  //   handleEquals();
-  // }, [formula]);
-
   const handleEquals = () => {
     const result = evaluateStringExpression(formula);
     if (result) {
       setOutput(result().toString());
       setFormula(result().toString());
+      setInput(() => "0");
     } else {
       setOutput("Error");
     }
@@ -82,7 +76,7 @@ function App() {
     setInput("Digit Limit Met");
     setTimeout(() => {
       setInput(prevValue);
-    }, 500);
+    }, 1000);
   };
 
   return (
@@ -93,7 +87,7 @@ function App() {
             <h1>{formula}</h1>
           </div>
           <div className="output-display">
-            <h1>{outputVal}</h1>
+            <h1>{inputVal}</h1>
           </div>
           <div className="btn-container">
             <div className="flex-wrap">
@@ -190,7 +184,7 @@ function App() {
                 className=""
                 value="."
                 onClick={(e) => {
-                  !output.includes(".") && handleNumber(e);
+                  !outputVal.includes(".") && handleNumber(e);
                 }}>
                 .
               </button>
